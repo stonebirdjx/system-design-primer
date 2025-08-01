@@ -4,22 +4,29 @@
 
 > 系统设计的核心问题是让 海量用户 和 海量数据 的系统稳定运行。
 
-# 每个程序员都应该知道的数字
-```bash
-L1 cache reference ......................... 0.5 ns
-Branch mispredict ............................ 5 ns
-L2 cache reference ........................... 7 ns
-Mutex lock/unlock ........................... 25 ns
-Main memory reference ...................... 100 ns             
-Compress 1K bytes with Zippy ............. 3,000 ns  =   3 µs
-Send 2K bytes over 1 Gbps network ....... 20,000 ns  =  20 µs
-SSD random read ........................ 150,000 ns  = 150 µs
-Read 1 MB sequentially from memory ..... 250,000 ns  = 250 µs
-Round trip within same datacenter ...... 500,000 ns  = 0.5 ms
-Read 1 MB sequentially from SSD* ..... 1,000,000 ns  =   1 ms
-Disk seek ........................... 10,000,000 ns  =  10 ms
-Read 1 MB sequentially from disk .... 20,000,000 ns  =  20 ms
-Send packet CA->Netherlands->CA .... 150,000,000 ns  = 150 ms
-```
+# 每个程序员都应该知道的延迟数字
 
+https://colin-scott.github.io/personal_website/research/interactive_latency.html
 
+![](./images/latency.png)
+
+|操作|延迟|10亿次延迟|
+|--|--|--|
+|L1 缓存查询|1ns|1s|
+|分支预测错误（Branch mispredict）|3ns|3s|
+|L2 缓存查询|4ns|4s|
+|互斥锁/解锁|17ns|17s|
+|在 1Gbps 的网络上发送 2KB|44ns|44s|
+|内存访问	|100ns|100s|
+|zip压缩1KB	|2000ns|2000s|
+|从内存顺序读取 1 MB|3000ns|3000s|
+|SSD 随机读|16000ns|16000s|
+|从 SSD 顺序读取 1 MB|49000ns|49000s|
+|同一个数据中心往返	|50000ns|50000s|
+|从磁盘顺序读取 1 MB	|825000ns|825000s|
+|磁盘寻址	|2000000 ns (2 ms)|2000000s|
+|从美国发送到欧洲的数据包	|150000000 ns（150 ms）ns|150000000s|
+
+> 1s = 1000ms = 1000000us = 1000000000ns
+- 可以看出，从远程服务器的内存中读数据要比直接从硬盘上读取要快的。
+- cpu负责算，内存负责存，cpu从内存里面取值，计算后存在内存里
